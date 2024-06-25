@@ -88,9 +88,9 @@ int main()
     std::cout << "Tensot x:\n";
     print_tensor(x);
 
-    // Perform the sqrt operation on the tensor
+    // Perform the sin(x) operation on the tensor
     std::cout << "Performing operation on the tensor" << std::endl;
-    auto y = tt::tt_metal::sqrt(x);
+    auto y = tt::tt_metal::sin(x);
     // You can try other operations like relu, sigmoid and what not. Or adding two tensors!
     // auto y = ttnn::add(x, x);
 
