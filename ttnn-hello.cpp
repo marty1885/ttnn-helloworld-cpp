@@ -20,8 +20,7 @@ ttnn::device::Device* device = nullptr;
 void print_tensor(const tt::tt_metal::Tensor& tensor)
 {
     // IMPORTANT. This function prints the tensor data assuming the tensor is in ROW_MAJOR layout
-    // but we are using TILE layout. The printed format WILL NOT be correct. However, it just to happens
-    // that 32x32 tensor is the same in both ROW_MAJOR and TILE layout. So it will work for this demo
+    // but we are using TILE layout. The printed format WILL NOT be correct. But good enough for a demo
 
     // Get the shape of the tensor
     auto shape = tensor.shape();
