@@ -1,14 +1,8 @@
-#include "tensor/host_buffer/functions.hpp"
-#include "tensor/types.hpp"
-#include "tt_dnn/op_library/auto_format.hpp"
 #include <cstddef>
-#include <tt_eager/tensor/tensor.hpp>
 #include <ttnn/core.hpp>
 #include <ttnn/operations/eltwise/binary/binary.hpp>
 #include <ttnn/device.hpp>
-#include <tt_dnn/op_library/fully_connected/fully_connected_op.hpp>
-#include <tt_dnn/op_library/eltwise_unary/eltwise_unary_op.hpp>
-#include <tt_eager/tensor/tensor.hpp>
+#include <ttnn/operations/data_movement/tilize_with_val_padding/tilize_with_val_padding.hpp>
 
 #include "common/bfloat16.hpp"
 
@@ -89,7 +83,7 @@ int main()
 
     // Perform the sin(x) operation on the tensor
     std::cout << "Performing operation on the tensor" << std::endl;
-    auto y = tt::tt_metal::sin(x);
+    auto y = ttnn::sin(x);
     // You can try other operations like relu, sigmoid and what not. Or adding two tensors!
     // auto y = ttnn::add(x, x);
 

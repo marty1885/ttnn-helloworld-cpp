@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(ttnn-hello CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -26,7 +26,7 @@ target_include_directories(ttnn-hello PRIVATE
 
     # TTNN
     $ENV{TT_METAL_HOME}/ttnn/cpp
-    $ENV{TT_METAL_HOME}/tt_eager
+    $ENV{TT_METAL_HOME}/ttnn/cpp/ttnn/deprecated
     $ENV{TT_METAL_HOME}/tt_metal/third_party/magic_enum
 
 )
@@ -40,11 +40,9 @@ target_link_libraries(ttnn-hello PRIVATE
     # Metalium
     tt_metal
     yaml-cpp
-    c++abi
-    c++
+    pthread
 
     # TTNN
-    tt_eager
     Python::Python
     $ENV{TT_METAL_HOME}/build/lib/_ttnn.so
 )
@@ -52,7 +50,5 @@ target_link_libraries(ttnn-hello PRIVATE
 target_compile_definitions(ttnn-hello PRIVATE
     FMT_HEADER_ONLY
 )
-
-target_compile_options(ttnn-hello PRIVATE -stdlib=libc++)
 
 target_precompile_headers(ttnn-hello PRIVATE pch.hpp)
