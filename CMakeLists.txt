@@ -12,17 +12,24 @@ if("$ENV{ARCH_NAME}" STREQUAL "")
     message(FATAL_ERROR "ARCH_NAME is not set")
 endif()
 
-message($ENV{TT_METAL_HOME}/tt_metal/third_party/src/firmware/riscv/$ENV{ARCH_NAME})
+set(NORMALIZED_ARCH_NAME $ENV{ARCH_NAME})
+if("$ENV{ARCH_NAME}" STREQUAL "wormhole_b0")
+    set(NORMALIZED_ARCH_NAME "wormhole")
+endif()
+
+message($ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME})
 add_executable(ttnn-hello ttnn-hello.cpp)
+
 target_include_directories(ttnn-hello PRIVATE
     # Metalium
     $ENV{TT_METAL_HOME}
     $ENV{TT_METAL_HOME}/tt_metal
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd
+    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device
     $ENV{TT_METAL_HOME}/tt_metal/third_party/fmt
-    $ENV{TT_METAL_HOME}/tt_metal/hw/inc/$ENV{ARCH_NAME}
+    $ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME}
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/
-    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/$ENV{ARCH_NAME}
+    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/${NORMALIZED_ARCH_NAME}
 
     # TTNN
     $ENV{TT_METAL_HOME}/ttnn/cpp

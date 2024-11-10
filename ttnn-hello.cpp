@@ -1,6 +1,6 @@
 #include <cstddef>
 #include <ttnn/core.hpp>
-#include <ttnn/operations/eltwise/binary/binary.hpp>
+#include <ttnn/operations/eltwise/unary/unary.hpp>
 #include <ttnn/device.hpp>
 #include <ttnn/operations/data_movement/tilize_with_val_padding/tilize_with_val_padding.hpp>
 
@@ -53,7 +53,6 @@ int main()
 
     // tell TTNN that we want to use the first device available
     device = &ttnn::device::open_device(0);
-    AutoFormat::SetDefaultDevice(device); // set the default device to the one we just opened
 
     std::cout << "Creating a tensor with bfloat16 data type" << std::endl;
     // TTNN wants us to explicitly specify if the tensor owns the buffer or not. if not, we need to make dman sure that the buffer is not deallocated before the tensor
@@ -68,7 +67,7 @@ int main()
         // Let the tensor take ownership of the buffer
         OwnedStorage{std::move(buffer)},
         // IMPORTANT: SHAPE MUST BE 4D ELSE EVERYTHING WILL BREAK during the PAD operation
-        {1, 1,tensor_width, tensor_height},
+        ttnn::SimpleShape({1, 1,tensor_width, tensor_height}),
         // The data type of the tensor
         tt::tt_metal::DataType::BFLOAT16,
         // The layout of the tensor. We don't care about the layout in this demo. But the valid options are TILE and ROW_MAJOR
