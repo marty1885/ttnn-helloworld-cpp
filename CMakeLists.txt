@@ -52,9 +52,9 @@ target_include_directories(ttnn-hello PRIVATE
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device/api/
-    $ENV{TT_METAL_HOME}/tt_metal/hw/inc/$ENV{ARCH_NAME}
+    $ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME}/
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/
-    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/$ENV{ARCH_NAME}
+    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/${NORMALIZED_ARCH_NAME}
 
     # TTNN
     $ENV{TT_METAL_HOME}/ttnn/cpp
