@@ -79,11 +79,11 @@ target_link_libraries(ttnn-hello PRIVATE
     $ENV{TT_METAL_HOME}/build/lib/libtt_metal.so
 )
 
+target_compile_options(ttnn-hello PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,Clang>:-stdlib=libc++>)
 target_compile_definitions(ttnn-hello PRIVATE
     FMT_HEADER_ONLY
 )
 
-add_compile_options($<$<COMPILE_LANG_AND_ID:CXX,Clang>:-stdlib=libc++>)
 target_compile_options(ttnn-hello PRIVATE -fsized-deallocation)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_link_options(ttnn-hello PRIVATE -lc++ -lc++abi)
