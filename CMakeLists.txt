@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include(cmake/compilers.cmake)
 option(USE_LIBCPP OFF)
 
 if("$ENV{TT_METAL_HOME}" STREQUAL "")
