@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(cmake/compilers.cmake)
+option(USE_LIBCPP OFF)
 
 if("$ENV{TT_METAL_HOME}" STREQUAL "")
     message(FATAL_ERROR "TT_METAL_HOME is not set")
@@ -29,12 +30,17 @@ if(CMAKE_CXX_COMPILER AND CMAKE_C_COMPILER)
     message(STATUS "Using specifed C++ compiler: ${CMAKE_CXX_COMPILER}")
     message(STATUS "Using specifed C compiler: ${CMAKE_C_COMPILER}")
 else()
-    message(STATUS "No C or C++ compiler specified, defaulting to Clang-17")
-    FIND_AND_SET_CLANG17()
+    message(STATUS "No C or C++ compiler specified, using system default compiler")
+endif()
+
+if(NOT DEFINED CPM_SOURCE_CACHE)
+    message(STATUS "Setting CPM_SOURCE_CACHE to ${PROJECT_SOURCE_DIR}/.cpmcache")
+    set(CPM_SOURCE_CACHE "${PROJECT_SOURCE_DIR}/.cpmcache")
+else()
+    message(STATUS "CPM_SOURCE_CACHE is set to: ${CPM_SOURCE_CACHE}")
 endif()
 
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(ENV{CPM_SOURCE_CACHE} "${PROJECT_SOURCE_DIR}/.cpmcache")
 include(CPM)
 
 if(CMAKE_VERSION VERSION_LESS 3.25)
@@ -52,6 +58,8 @@ target_include_directories(ttnn-hello PRIVATE
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device/api/
+    $ENV{TT_METAL_HOME}/tt_metal/third_party/taskflow/3rd-party/
+    $ENV{TT_METAL_HOME}/tt_metal/third_party/tracy/public/
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME}/
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/${NORMALIZED_ARCH_NAME}
@@ -76,17 +84,14 @@ target_link_libraries(ttnn-hello PRIVATE
     tt_metal
     $ENV{TT_METAL_HOME}/build/lib/_ttnn.so
     $ENV{TT_METAL_HOME}/build/lib/libdevice.so
-    $ENV{TT_METAL_HOME}/build/lib/libtt_metal.so
 )
 
-target_compile_options(ttnn-hello PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,Clang>:-stdlib=libc++>)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND USE_LIBCPP)
+    target_compile_options(ttnn-hello PRIVATE -stdlib=libc++)
+endif()
+
 target_compile_definitions(ttnn-hello PRIVATE
     FMT_HEADER_ONLY
 )
-
-target_compile_options(ttnn-hello PRIVATE -fsized-deallocation)
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_link_options(ttnn-hello PRIVATE -lc++ -lc++abi)
-endif()
 
 target_precompile_headers(ttnn-hello PRIVATE pch.hpp)

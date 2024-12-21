@@ -41,23 +41,6 @@ if(yaml-cpp_ADDED)
 endif()
 
 ############################################################################################################################
-# googletest
-############################################################################################################################
-
-CPMAddPackage(
-    NAME googletest
-    GITHUB_REPOSITORY google/googletest
-    GIT_TAG v1.13.0
-    VERSION 1.13.0
-    OPTIONS
-        "INSTALL_GTEST OFF"
-)
-
-if(googletest_ADDED)
-    target_compile_options(gtest PRIVATE -Wno-implicit-int-float-conversion)
-endif()
-
-############################################################################################################################
 # boost-ext reflect : https://github.com/boost-ext/reflect
 ############################################################################################################################
 
@@ -72,7 +55,7 @@ endif()
 # magic_enum : https://github.com/Neargye/magic_enum
 ############################################################################################################################
 
-CPMAddPackage(NAME magic_enum GITHUB_REPOSITORY Neargye/magic_enum GIT_TAG v0.9.6)
+CPMAddPackage(NAME magic_enum GITHUB_REPOSITORY Neargye/magic_enum GIT_TAG v0.9.7)
 
 ############################################################################################################################
 # fmt : https://github.com/fmtlib/fmt
@@ -85,3 +68,9 @@ CPMAddPackage(NAME fmt GITHUB_REPOSITORY fmtlib/fmt GIT_TAG 11.0.1)
 ############################################################################################################################
 
 CPMAddPackage(NAME range-v3 GITHUB_REPOSITORY ericniebler/range-v3 GIT_TAG 0.12.0)
+
+############################################################################################################################
+# nlohmann/json : https://github.com/nlohmann/json
+############################################################################################################################
+
+CPMAddPackage(NAME json GITHUB_REPOSITORY nlohmann/json GIT_TAG v3.9.1)
