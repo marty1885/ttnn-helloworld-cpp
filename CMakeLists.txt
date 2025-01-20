@@ -10,14 +10,6 @@ option(USE_LIBCPP OFF)
 if("$ENV{TT_METAL_HOME}" STREQUAL "")
     message(FATAL_ERROR "TT_METAL_HOME is not set")
 endif()
-if("$ENV{ARCH_NAME}" STREQUAL "")
-    message(FATAL_ERROR "ARCH_NAME is not set")
-endif()
-
-set(NORMALIZED_ARCH_NAME $ENV{ARCH_NAME})
-if("$ENV{ARCH_NAME}" STREQUAL "wormhole_b0")
-    set(NORMALIZED_ARCH_NAME "wormhole")
-endif()
 
 if(DEFINED ENV{CMAKE_C_COMPILER} AND DEFINED ENV{CMAKE_CXX_COMPILER})
     message(STATUS "Setting C and C++ compiler from environment variables")
@@ -48,24 +40,24 @@ else()
     add_subdirectory(dependencies EXCLUDE_FROM_ALL SYSTEM)
 endif()
 
-message($ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME})
 add_executable(ttnn-hello ttnn-hello.cpp)
 
 target_include_directories(ttnn-hello PRIVATE
     $ENV{TT_METAL_HOME}
     $ENV{TT_METAL_HOME}/tt_metal
+    $ENV{TT_METAL_HOME}/tt_metal/api/
+    $ENV{TT_METAL_HOME}/tt_metal/include
+    $ENV{TT_METAL_HOME}/tt_metal/hostdevcommon/api
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device
     $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/device/api/
     $ENV{TT_METAL_HOME}/tt_metal/third_party/taskflow/3rd-party/
     $ENV{TT_METAL_HOME}/tt_metal/third_party/tracy/public/
-    $ENV{TT_METAL_HOME}/tt_metal/hw/inc/${NORMALIZED_ARCH_NAME}/
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/
-    $ENV{TT_METAL_HOME}/tt_metal/third_party/umd/src/firmware/riscv/${NORMALIZED_ARCH_NAME}
 
     # TTNN
+    $ENV{TT_METAL_HOME}/ttnn
     $ENV{TT_METAL_HOME}/ttnn/cpp
-    $ENV{TT_METAL_HOME}/ttnn/cpp/ttnn/deprecated
     $ENV{TT_METAL_HOME}/tt_metal/third_party/magic_enum
 )
 
