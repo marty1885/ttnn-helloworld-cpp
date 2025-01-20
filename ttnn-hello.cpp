@@ -4,12 +4,10 @@
 #include <ttnn/device.hpp>
 #include <ttnn/operations/data_movement/tilize_with_val_padding/tilize_with_val_padding.hpp>
 
-#include "common/bfloat16.hpp"
-
 #include <vector>
 #include <iostream>
 
-ttnn::device::Device* device = nullptr;
+ttnn::IDevice* device = nullptr;
 
 void print_tensor(const tt::tt_metal::Tensor& tensor)
 {

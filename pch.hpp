@@ -4,7 +4,5 @@
 #include <ttnn/device.hpp>
 #include <ttnn/operations/data_movement/tilize_with_val_padding/tilize_with_val_padding.hpp>
 
-#include "common/bfloat16.hpp"
-
 #include <vector>
 #include <iostream>
