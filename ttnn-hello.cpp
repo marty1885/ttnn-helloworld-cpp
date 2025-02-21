@@ -15,7 +15,7 @@ void print_tensor(const tt::tt_metal::Tensor& tensor)
     // but we are using TILE layout. The printed format WILL NOT be correct. But good enough for a demo
 
     // Get the shape of the tensor
-    auto shape = tensor.shape();
+    auto shape = tensor.logical_shape();
     // compyte the size of the tensor
     size_t size = 1;
     for(size_t i = 0; i < shape.size(); i++)
@@ -65,14 +65,14 @@ int main()
         // Let the tensor take ownership of the buffer
         OwnedStorage{std::move(buffer)},
         // IMPORTANT: SHAPE MUST BE 4D ELSE EVERYTHING WILL BREAK during the PAD operation
-        ttnn::SimpleShape({1, 1,tensor_width, tensor_height}),
+        ttnn::Shape({1, 1,tensor_width, tensor_height}),
         // The data type of the tensor
         tt::tt_metal::DataType::BFLOAT16,
         // The layout of the tensor. We don't care about the layout in this demo. But the valid options are TILE and ROW_MAJOR
         // Where TILE is the processor native layout and ROW_MAJOR mostly have to be converted to TILE before processing
         tt::tt_metal::Layout::TILE);
     // Once created, the tensor "on host" and we must move it to the device to perform operations on it
-    x = x.to(device);
+    x = x.to_device(device);
 
     // Print the tensor to see what it looks like
     std::cout << "Tensot x:\n";
