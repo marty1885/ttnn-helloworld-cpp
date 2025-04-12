@@ -63,7 +63,7 @@ target_include_directories(ttnn-hello PRIVATE
 )
 
 target_link_directories(ttnn-hello PRIVATE
-    $ENV{TT_METAL_HOME}/build/lib
+    $ENV{TT_METAL_HOME}/build/tt_metal
 )
 
 target_link_libraries(ttnn-hello PRIVATE

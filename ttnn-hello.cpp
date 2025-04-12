@@ -9,41 +9,6 @@
 
 ttnn::IDevice* device = nullptr;
 
-void print_tensor(const tt::tt_metal::Tensor& tensor)
-{
-    // IMPORTANT. This function prints the tensor data assuming the tensor is in ROW_MAJOR layout
-    // but we are using TILE layout. The printed format WILL NOT be correct. But good enough for a demo
-
-    // Get the shape of the tensor
-    auto shape = tensor.logical_shape();
-    // compyte the size of the tensor
-    size_t size = 1;
-    for(size_t i = 0; i < shape.size(); i++)
-        size *= shape[i];
-
-    // prepare a buffer to copy the tensor data to the host
-    std::vector<bfloat16> data(size);
-    tt::tt_metal::memcpy(device->command_queue(), data.data(), tensor);
-
-    // print the data
-    for(size_t i = 0; i < shape[0]; i++)
-    {
-        for(size_t j = 0; j < shape[1]; j++)
-        {
-            for(size_t k = 0; k < shape[2]; k++)
-            {
-                for(size_t l = 0; l < shape[3]; l++)
-                {
-                    std::cout << data[i * shape[1] * shape[2] * shape[3] + j * shape[2] * shape[3] + k * shape[3] + l].to_float() << " ";
-                }
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-    }
-}
-
 int main()
 {
     const size_t tensor_width = 32;
@@ -75,8 +40,8 @@ int main()
     x = x.to_device(device);
 
     // Print the tensor to see what it looks like
-    std::cout << "Tensot x:\n";
-    print_tensor(x);
+    std::cout << "Tensot x:\n"
+        << x.write_to_string() << std::endl;
 
     // Perform the sin(x) operation on the tensor
     std::cout << "Performing operation on the tensor" << std::endl;
@@ -85,8 +50,8 @@ int main()
     // auto y = ttnn::add(x, x);
 
     // Print the result
-    std::cout << "Tensot y:\n";
-    print_tensor(y);
+    std::cout << "Tensot y:\n"
+        << y.write_to_string() << std::endl;
 
     // Remember to close the device when you are done
     std::cout << "Done. Shutting down" << std::endl;
