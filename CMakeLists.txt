@@ -54,6 +54,7 @@ target_include_directories(ttnn-hello PRIVATE
     $ENV{TT_METAL_HOME}/tt_metal/third_party/taskflow/3rd-party/
     $ENV{TT_METAL_HOME}/tt_metal/third_party/tracy/public/
     $ENV{TT_METAL_HOME}/tt_metal/hw/inc/
+    $ENV{TT_METAL_HOME}/tt_stl/
 
     # TTNN
     $ENV{TT_METAL_HOME}/ttnn
@@ -73,8 +74,7 @@ target_link_libraries(ttnn-hello PRIVATE
     Boost::core
     Boost::container
     tt_metal
-    $ENV{TT_METAL_HOME}/build/lib/_ttnn.so
-    $ENV{TT_METAL_HOME}/build/lib/libdevice.so
+    $ENV{TT_METAL_HOME}/build/ttnn/_ttnn.so
 )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND USE_LIBCPP)

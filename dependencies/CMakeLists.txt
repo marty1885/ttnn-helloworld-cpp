@@ -25,6 +25,8 @@ CPMAddPackage(
     NAME yaml-cpp
     GITHUB_REPOSITORY jbeder/yaml-cpp
     GIT_TAG 0.8.0
+    PATCHES
+        yaml-cpp.patch
     OPTIONS
         "YAML_CPP_BUILD_TESTS OFF"
         "YAML_CPP_BUILD_TOOLS OFF"
@@ -67,10 +69,10 @@ CPMAddPackage(NAME fmt GITHUB_REPOSITORY fmtlib/fmt GIT_TAG 11.0.1)
 # range-v3 : https://github.com/ericniebler/range-v3
 ############################################################################################################################
 
-CPMAddPackage(NAME range-v3 GITHUB_REPOSITORY ericniebler/range-v3 GIT_TAG 0.12.0)
+CPMAddPackage(NAME range-v3 GITHUB_REPOSITORY ericniebler/range-v3 PATCHES ranges-v3.patch GIT_TAG 0.12.0)
 
 ############################################################################################################################
 # nlohmann/json : https://github.com/nlohmann/json
 ############################################################################################################################
 
-CPMAddPackage(NAME json GITHUB_REPOSITORY nlohmann/json GIT_TAG v3.9.1)
+CPMAddPackage(NAME json GITHUB_REPOSITORY nlohmann/json GIT_TAG v3.12.0)
